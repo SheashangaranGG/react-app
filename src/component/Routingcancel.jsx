@@ -12,14 +12,17 @@ import { General } from './general'
 import { Tickets } from './tickets'
 import { Cancle } from './cancle'
 import Payment from './payment'
+import Forgot from './forgot'
+import CustomerReviewPage from './review'
+import Profile from './profile'
 
 const RoutingCancel = () => {
   return (
     <div>
       <Routes>
-      <Route path='/' element={<Navbar/>}/>
-        <Route path='/Navbar' element={<Navbar/>}/>
+        <Route path='/'  element={<Login/>}/>
         <Route path='/Login'  element={<Login/>}/>
+        <Route path='/Navbar' element={<Navbar/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/Search' element={<Search/>}/>
         <Route path='/cancled' element={<Cancled/>}/>
@@ -31,6 +34,9 @@ const RoutingCancel = () => {
             <Route path='/tickets' element={<Tickets/>}/>
             <Route path='/Payment' element={<Payment/>}/>
             <Route path='/Cancle' element={<Cancle/>}/>
+            <Route path='/Forgot' element={<Forgot/>}/>
+            <Route path='/Coustomerreviewpage' element={<CustomerReviewPage/>}/>
+            <Route path='/Profile' element={<Profile/>}/>
       </Routes>
     </div>
   )

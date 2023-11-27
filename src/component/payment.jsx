@@ -44,11 +44,12 @@ const Payment = () => {
     }
     return (
       <div>
-        <ul style={{listStyle:'none'}}>
+        <ul style={{listStyle:'none',textSizeAdjust:'40px'}}>
           <li>
         <Button variant='text' onClick={handleclick}><h3>is it safe to use my credit or debit card to buy bus tickets ?</h3></Button>
         {data ? <p></p>:<p>
-        Transactions on sks are very safe. We employ the best-in-class security and the transactions done are secure. Apart from being certified by Verisign, sks uses Secure Socket Layers (SSL) data encryption. Using SSL ensures that the information exchanged with us is never transmitted unencrypted, thus protecting the information from being viewed by unauthorized individuals.
+       
+         Transactions on sks are very safe. We employ the best-in-class security and the transactions done are secure. Apart from being certified by Verisign, sks uses Secure Socket Layers (SSL) data encryption. Using SSL ensures that the information exchanged with us is never transmitted unencrypted, thus protecting the information from being viewed by unauthorized individuals.
             </p>}
           </li>
           <li>

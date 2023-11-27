@@ -9,7 +9,7 @@ const Cancled = () => {
         navigation('/Navbar')
     }
   return (
-    <div>
+    <div>  
         <h3>Your ticket has been cancelled.Amount will be added to your Account soon.</h3>
       <Button varient='contained' onClick={handleevent}>Home</Button>
     </div>

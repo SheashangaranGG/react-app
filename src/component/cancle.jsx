@@ -114,7 +114,7 @@ However please note that the cancellation fee and cancellation period may differ
           </li>
           <li>
           <Button variant='text' onClick={handleclick5}><h3>How can i reschedule my bus tickets?</h3></Button>
-        {data5 ? <p></p>:<p style={{backgroundColor:'lightblue'}}>
+        {data5 ? <p></p>:<p>
           Go search for my booking and change the travel details.
             </p>}
           </li>

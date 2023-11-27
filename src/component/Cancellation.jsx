@@ -1,19 +1,24 @@
 import { Button } from '@mui/material';
 import React from 'react'
+import '../assert/login.css';
 import { useNavigate } from 'react-router-dom';
 
 const Cancellation = () => {
     const navigation=useNavigate();
     const handleevent =()=>
     {
+      alert('Thank you!!!');
         navigation('/cancled');
     }
   return (
-    <div style={{paddingLeft:'600px'}}>
-      <fieldset style={{width:500,height:400,paddingTop:30}}>
+    <div style={{paddingLeft:'600px'}} className='cancle'>
+      <div className='backgroundimage' >
+      </div>
+      <fieldset style={{width:500,height:525,paddingTop:30,color:'white',top:"12%",right:"6%",position:"absolute",backgroundColor:"rgb"}}>
         <legend>
             Cancellation:
         </legend>
+
         <div style={{textAlign:'left',paddingLeft:50}}>
 
       <input type='checkbox'></input>
@@ -29,10 +34,14 @@ const Cancellation = () => {
           If other's:
       </textarea><br></br>
       <br></br>
+      <textarea style={{width:'300px',height:'100px'}}>
+        Queries 'If any':
+      </textarea><br></br>
+      <br></br>
      <Button variant='contained' onClick={handleevent}> Submit </Button>
         </div>
       </fieldset> 
     </div>
   );
 }
-export default Cancellation
+export default Cancellation;

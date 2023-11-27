@@ -21,12 +21,11 @@ export default function Fromto() {
 
   return (
     <div className='nontats'>
-
-    <div style={{outlineStyle:'groove',outlineWidth:'4px',outlineColor:'lavender'}}>
-      <h1 style={{textAlign:"center",color:'black',alignContent:'center'}}>Booking Details</h1>
-    <div style={{paddingLeft:'500px'}}>
+    <div>
+      <h1 style={{textAlign:"center",color:'#00bfff'}}>Booking Details</h1>
+    <div style={{paddingLeft:'550px'}}>
     <form
-      style={{backgroundColor:"White",width: 400, height: 400, action:"/action_page.php",alignContent:'center' }}
+      style={{backgroundColor:"whitesmoke",width: 400, height: 400, action:"/action_page.php",color:'black' }}
       onSubmit={handleSubmit}
       >
         <fieldset>

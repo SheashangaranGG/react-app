@@ -1,60 +1,145 @@
-import React, { useState } from 'react';
-import '../assert/signup.css';
-import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-const Signup = ()=>{
-    const navigate=useNavigate();
-    const[username,setUsername]=useState("");
-    const[password,setPassword]=useState("");
-    const[number,setNumber]=useState("");
-    const[email,setEmail]=useState("");
-    const[firstname,SetFirstName]=useState("");
-    const Username1 = (event) =>{
-        setUsername(event.target.value);
-    }
-    const Password1 = (event) => {
-        setPassword(event.target.value);
-    }
-    const Number1 =(event) =>{
-        setNumber(event.target.value);
-    }
-    const Submit1 = (event) =>{
-        event.preventDefault();
-        console.log(setUsername+" "+setPassword+" "+setNumber);
-        console.log(username+" "+password+" "+number+" "+email+" "+firstname);
-        alert("You have Signed in!!!");
-        navigate('/Navbar');
-    }
-    const email1 = (event) => {
-        setEmail(event.target.value);
-    }
-    const FirstName1 = (event) =>{
-        SetFirstName(event.target.value);
-    }
-    return(
-        <div className='kkk'>
-        <div className='reality'>   
-        <Card variant="elevation">
-        <h2>SIGN IN</h2>
-        <form method="post" onSubmit={Submit1}>
-            <label htmlFor="FirstName">FirstName:</label><br></br>
-            <input type="text" name="firstname" id="firstname" onChange={FirstName1} required style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="email">Email</label><br></br>
-            <input type="email" name="email" id="email" onChange={email1} required style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="Username">UserName</label><br></br>
-            <input type="text" name="username" id="username" onChange={Username1} required style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="Password">Create Password</label><br></br>
-            <input type="password" name="password" id="password" onChange={Password1} style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="MobileNumber">MobileNumber</label><br></br>
-            <input type="text" name="MobileNumber" id="MobileNumber" onChange={Number1} style={{borderRadius:"7px"}}></input><br></br><br></br>
-            <Button variant="contained" type="submit">submit</Button><br></br><br></br>
-            <Button variant="contained"type="reset">reset</Button><br></br>
-            </form>
-            </Card>
-        </div>
-        </div>
-    )
-}
-export default Signup;
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useEffect,useState } from 'react';
+import { getalldata, postalldata } from '../axiosapi';
+const defaultTheme = createTheme();
 
+export default function Signup() {
+  const navigation=useNavigate();
+  const [data,setData]=useState([]);
+    const [userdata,setUserdata]=useState({firstName:"",email:"",pass:""})
+    
+    useEffect(()=>
+    {
+        const fetchdata=async()=>{
+            try{
+                const Response=await getalldata();
+          setData(Response.data);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+    }
+    fetchdata();
+  },[] )
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(userdata);
+    postalldata(userdata);
+    console.log(userdata);
+    alert("Hello!!! "+userdata.firstName+" Thanks for choosing us");
+    navigation('/Navbar')
+  };
+  const handleclick=()=>
+  {
+    navigation('/Login');
+  }
+  
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                  onChange={(event)=>setUserdata({...userdata,firstName:event.target.value})}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(event)=>setUserdata({...userdata,email:event.target.value})}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={(event)=>setUserdata({...userdata,pass:event.target.value})}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onSubmit={handleSubmit}
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Button variant='text' onClick={handleclick}>
+                  Already have an account? Sign in
+                </Button>
+                
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+}

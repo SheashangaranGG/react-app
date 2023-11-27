@@ -1,54 +1,137 @@
-import React, { useState } from 'react';
-import '../assert/login.css';
-import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-const Login = ()=>{
-    const navigate=useNavigate();
-    const[username,setUsername]=useState("");
-    const[password,setPassword]=useState("");
-    const[number,setNumber]=useState("");
-    const[email,setEmail]=useState("");
-    const Username1 = (event) =>{
-        setUsername(event.target.value);
-    }
-    const Password1 = (event) => {
-        setPassword(event.target.value);
-    }
-    const Number1 =(event) =>{
-        setNumber(event.target.value);
-    }
-    const Submit1 = (event) =>{
-        event.preventDefault();
-        console.log(setUsername+" "+setPassword+" "+setNumber);
-        console.log(username+" "+password+" "+number+" "+email);
-        alert("You have Logged in!!!");
-        navigate('/Navbar');
-    }
-    const email1 = (event) => {
-        setEmail(event.target.value);
-    }
-    return(
-        <div className='nope'>
-        <div className='reality'>   
-        <Card variant="elevation">
-        <h2>LOGIN</h2>
-        <form method="post" onSubmit={Submit1}>
-            <label htmlFor="email">Email</label><br></br>
-            <input type="email" name="email" id="email" onChange={email1} required style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="Username">UserName</label><br></br>
-            <input type="text" name="username" id="username" onChange={Username1} required style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="Password">Password</label><br></br>
-            <input type="password" name="password" id="password" onChange={Password1} style={{borderRadius:"7px"}}></input><br></br>
-            <label htmlFor="MobileNumber">MobileNumber</label><br></br>
-            <input type="text" name="MobileNumber" id="MobileNumber" onChange={Number1} style={{borderRadius:"7px"}}></input><br></br><br></br>
-            <Button variant="contained" type="submit">submit</Button><br></br><br></br>
-            <Button variant="contained"type="reset">reset</Button><br></br>
-            </form>
-            </Card>
-        </div>
-        </div>
-    )
-}
-export default Login;
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getalldata } from '../axiosapi';
+const defaultTheme = createTheme();
 
+export default function Login() {
+    const navigation=useNavigate();
+    const [ldata,setLData]=useState([""]);
+  
+  useEffect(()=>
+  {
+    const fetchdata = async()=>
+    {
+      const res=await getalldata();
+      setLData(res.data);
+    }
+    fetchdata();
+  },[])
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const em=document.getElementById("email").value;
+    const pass=document.getElementById("password").value;
+    const emailexist=ldata.findIndex((user)=>user.email===em)
+    if(emailexist===-1)
+    alert("Invalid email Id");
+    else if(emailexist!==-1&&ldata[emailexist].pass===pass)
+    navigation('/Navbar');
+    else
+    alert("Incorrect password");
+  };
+
+  const handleevent=()=>
+  {
+       navigation('/Forgot');
+  }
+  const handleclick=()=>
+  {
+    navigation('/Signup');
+  }
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://images.pexels.com/photos/2790391/pexels-photo-2790391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                isRequired
+             />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                isRequired
+                
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Login
+              </Button>
+              <Grid container>
+                <Grid item>
+                 <Button varient='text' onClick={handleclick}>
+                    Don't have an account? Sign Up
+                 </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}
